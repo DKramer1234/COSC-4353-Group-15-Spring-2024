@@ -1,0 +1,14 @@
+Reguarding logic for Client Signup.
+    Client signs up on CLIENT REGISTRATION page.
+    After registration, redirect to LOGIN page.
+    After Log in, check IF profile has been completed yet.
+        IF yes, sign in as normal.
+        IF not, redirect to CLIENT PROFILE MANAGEMENT.
+
+Front end pages to make
+    1. LOGIN
+    2. CLIENT REGISTRATION
+    3. CLIENT PROFILE MANAGEMENT
+    4. HOME
+    5. FUEL QUOTE FORM (Sends data to pricing module)
+    6. FUEL QUOTE HISTORY
