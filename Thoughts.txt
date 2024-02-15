@@ -6,9 +6,9 @@ Reguarding logic for Client Signup.
         IF not, redirect to CLIENT PROFILE MANAGEMENT.
 
 Front end pages to make
-    1. LOGIN
-    2. CLIENT REGISTRATION
-    3. CLIENT PROFILE MANAGEMENT
-    4. HOME
-    5. FUEL QUOTE FORM (Sends data to pricing module)
-    6. FUEL QUOTE HISTORY
+    1. LOGIN - Luis
+    2. CLIENT REGISTRATION - Luis
+    3. CLIENT PROFILE MANAGEMENT - Yesenia
+    4. HOME - Luis
+    5. FUEL QUOTE FORM (Sends data to pricing module) - David
+    6. FUEL QUOTE HISTORY - Jed
