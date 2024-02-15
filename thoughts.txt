@@ -1,6 +1,14 @@
-1. LOGIN - LUIS
-2. CLIENT REGISTRATION - LUIS
-3. CLIENT PROFILE MANAGEMENT - YESENIA
-4. HOME - LUIS
-5. FUEL QUOTE FORM - DAVID
-6. FUEL QUOTE HISTORY - JED
+Reguarding logic for Client Signup.
+    Client signs up on CLIENT REGISTRATION page.
+    After registration, redirect to LOGIN page.
+    After Log in, check IF profile has been completed yet.
+        IF yes, sign in as normal.
+        IF not, redirect to CLIENT PROFILE MANAGEMENT.
+
+Front end pages to make
+    1. LOGIN - LUIS
+    2. CLIENT REGISTRATION - LUIS
+    3. CLIENT PROFILE MANAGEMENT - YESENIA
+    4. HOME - LUIS
+    5. FUEL QUOTE FORM (Sends data to pricing module) - DAVID
+    6. FUEL QUOTE HISTORY - JED
