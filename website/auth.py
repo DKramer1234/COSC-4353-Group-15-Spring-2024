@@ -4,9 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
 
-
 auth = Blueprint('auth', __name__)
-
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -27,13 +25,11 @@ def login():
 
     return render_template("login.html", user=current_user)
 
-
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
-
 
 @auth.route('/client_registration', methods=['GET', 'POST'])
 def client_registration():
@@ -62,6 +58,7 @@ def client_registration():
 
     return render_template("client_registration.html", user=current_user)
 
+# Profile Management path
 @auth.route('/profile_management', methods=['GET', 'POST'])
 def profile_management():
     return "<p>Profile Management</p>"
