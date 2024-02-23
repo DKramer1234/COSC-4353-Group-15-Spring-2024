@@ -61,9 +61,10 @@ def client_registration():
 # Profile Management path
 @auth.route('/profile_management', methods=['GET', 'POST'])
 def profile_management():
-    return "<p>Profile Management</p>"
+    return render_template('profile_management.html', user=current_user)
 
 @auth.route('/quoteform', methods=['GET', 'POST'])
 def quoteform(): # will need login required eventually
     # TO DO: FUNCTION DEFINITION
     return render_template('quoteform.html', user=current_user)
+
