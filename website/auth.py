@@ -61,4 +61,4 @@ def client_registration():
 # Profile Management path
 @auth.route('/profile_management', methods=['GET', 'POST'])
 def profile_management():
-    return "<p>Profile Management</p>"
+    return render_template('profile_management.html', user=current_user)
