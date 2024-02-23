@@ -68,3 +68,6 @@ def quoteform(): # will need login required eventually
     # TO DO: FUNCTION DEFINITION
     return render_template('quoteform.html', user=current_user)
 
+@auth.route('/history', methods=['GET', 'POST'])
+def history():
+    return render_template('history.html', user=current_user)
