@@ -61,3 +61,7 @@ def sign_up():
             return redirect(url_for('views.home'))
 
     return render_template("client_registration.html", user=current_user)
+
+@auth.route('/history', methods=['GET', 'POST'])
+def history():
+    return render_template('history.html', user=current_user)
