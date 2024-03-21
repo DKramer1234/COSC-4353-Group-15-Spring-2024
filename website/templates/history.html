@@ -1,78 +1,46 @@
 {% extends "base.html" %}
 {% block title %}Quote History{% endblock %}
 {% block content %}
-<form method="POST">
-    <h3 align="center">Fuel Quote History</h3>
-    <div class="form-group">
-        <label for="username">Client Name</label>
-        <input
-            type="text"
-            class="form-control"
-            id="full_name"
-            name="full_name"
-            placeholder=""
-            readonly
-        />
-    </div>
-    <div class="form-group">
-        <label for="address">Address</label>
-        <input
-            type="text"
-            class="form-control"
-            id="address"
-            name="address"
-            placeholder=""
-            readonly
-        />
-    </div>
-    <div class="form-group">
-        <label for="gallons_requested">Gallons Requested</label>
-        <input
-            type="number"
-            class="form-control"
-            id="gallons_requested"
-            name="gallons_requested"
-            placeholder=""
-            readonly
-        />
-    </div>
-    <div class="form-group">
-        <label for="delivery_date">Delivery Date</label>
-        <input
-            type="date"
-            class="form-control"
-            id="delivery_date"
-            name="delivery_date"
-            value=""
-            readonly
-        />
-    </div>
-    <div class="form-group">
-        <label for="suggested_price">Suggested Price</label>
-        <input
-            type="number"
-            class="form-control"
-            id="suggested_price"
-            name="suggested_price"
-            placeholder=""
-            readonly
-        />
-    </div>
-    <div class="form-group">
-        <label for="total_amount_due">Total Amount Due</label>
-        <input
-            type="number"
-            class="form-control"
-            id="total_amount_due"
-            name="total_amount_due"
-            placeholder=""
-            readonly
-        />
-    </div>
+    <h1>Client's List Of Quote History's</h1>
+    <h3>Oldest to New</h3>
+
+    <h2>John Doe</h2>
     
-    <br />
-    <h3 align="center">
-        
-    </h3>
-</form>
+        <li>
+            <strong>Address:</strong> 123 Main St, Anytown, USA
+        </li>
+        <li>
+            <strong>Gallons Requested:</strong> 100
+        </li>
+        <li>
+            <strong>Delivery Date:</strong> 2024-02-23
+        </li>
+        <li>
+            <strong>Suggested Price:</strong> $2.50
+        </li>
+        <li>
+            <strong>Total Amount Due:</strong> $250.00
+        </li>
+   
+    <hr>
+    
+    <h2>John Doe</h2>
+  
+        <li>
+            <strong>Address:</strong> 456 Oak St, Springfield, USA
+        </li>
+        <li>
+            <strong>Gallons Requested:</strong> 150
+        </li>
+        <li>
+            <strong>Delivery Date:</strong> 2024-03-15
+        </li>
+        <li>
+            <strong>Suggested Price:</strong> $2.75
+        </li>
+        <li>    
+            <strong>Total Amount Due:</strong> $412.50
+        </li>
+
+    
 {% endblock %}
