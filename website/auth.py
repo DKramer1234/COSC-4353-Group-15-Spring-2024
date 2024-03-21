@@ -13,6 +13,7 @@ def login():
         password = request.form.get('password')
 
         user = User.query.filter_by(username=username).first()
+        # Need to add logic to catch any logging in users that do not have all of the information in profile management filled out.
         if user:
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
@@ -52,7 +53,6 @@ def client_registration():
             new_user = User(username=username, password=hashed_password)
             db.session.add(new_user)
             db.session.commit()
-            login_user(new_user, remember=True)
             flash('Account created!', category='success')
             return redirect(url_for('auth.login'))
 
