@@ -1,8 +1,14 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
+#from pricing_module import PricingModule
+
+def PricingModule(delivery_address):
+    # FUNCTION STUB: WILL BE COMPLETE FOR LAST ASSIGNMENT
+    price_per_gal = 120.50 # units: $ / gal
+    return price_per_gal
 
 auth = Blueprint('auth', __name__)
 
@@ -66,6 +72,15 @@ def profile_management():
 @auth.route('/quoteform', methods=['GET', 'POST'])
 def quoteform(): # will need login required eventually
     # TO DO: FUNCTION DEFINITION
+    if request.method == 'POST':
+        gallons = float(request.form.get('gallons'))
+        delivery_address = request.form.get('address') # address will be taken from db
+        date = request.form.get('date')
+        price = PricingModule(delivery_address)
+        total = gallons * price
+        flash('Fuel Quote Submitted!', category='success')
+        return render_template('quoteform.html', user=current_user, price=price, total=total, gallons=gallons, date=date)
+        # new_quote = Quote(gallons=gallons, address=delivery_address, data=date, price=price, total=total) <- what we might use to add this completed quote to the database
     return render_template('quoteform.html', user=current_user)
 
 @auth.route('/history', methods=['GET', 'POST'])
