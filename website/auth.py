@@ -61,4 +61,34 @@ def client_registration():
 # Profile Management path
 @auth.route('/profile_management', methods=['GET', 'POST'])
 def profile_management():
-    return "<p>Profile Management</p>"
+    if request.method == 'POST':
+        full_name = request.form.get(full_name)
+        address1 = request.form.get(address1)
+        address2 = request.form.get(address2)
+        city = request.form.get(city)
+        state = request.form.get(state)
+        zipcode = request.form.get(zipcode)
+
+        # gets the form information and saves it
+
+        current_user.full_name = full_name
+        current_user.address1 = address1
+        current_user.address2 = address2
+        current_user.city = city
+        current_user.state = state
+        current_user.zipcode = zipcode
+
+        db.session.commit() # saves the changes in db
+
+        return redirect(url_for('auth.profile_management')) 
+    
+    return render_template('profile_management.html', user=current_user)
+
+@auth.route('/quoteform', methods=['GET', 'POST'])
+def quoteform(): # will need login required eventually
+    # TO DO: FUNCTION DEFINITION
+    return render_template('quoteform.html', user=current_user)
+
+@auth.route('/history', methods=['GET', 'POST'])
+def history():
+    return render_template('history.html', user=current_user)
