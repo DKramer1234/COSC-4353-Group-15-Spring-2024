@@ -3,12 +3,12 @@ from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
-#from pricing_module import PricingModule
+from .pricing_module import PricingModule
 
-def PricingModule(delivery_address):
+#def PricingModule(delivery_address):
     # FUNCTION STUB: WILL BE COMPLETE FOR LAST ASSIGNMENT
-    price_per_gal = 120.50 # units: $ / gal
-    return price_per_gal
+    #price_per_gal = 120.50 # units: $ / gal
+    #return price_per_gal
 
 auth = Blueprint('auth', __name__)
 
