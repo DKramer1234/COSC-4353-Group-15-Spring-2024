@@ -1,4 +1,3 @@
-import pytest
 from website.pricing_module import PricingModule
 
 def test_pricing_module():

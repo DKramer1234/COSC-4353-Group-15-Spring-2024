@@ -72,6 +72,8 @@ def quoteform(): # will need login required eventually
         delivery_address = request.form.get('address') # address will be taken from db, this is a placeholder for now
         price = None
         total = None
+        if not gallons and not date:
+            flash('Enter an amount for fuel voluem (gallons) and choose a delivery date', category='error')
         if not gallons:
             flash('Enter an amount for fuel volume (gallons)', category='error')
         elif not date:
