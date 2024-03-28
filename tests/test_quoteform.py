@@ -16,3 +16,5 @@ def test_quoteform_validate_input(client, gallons, date, price, total):
     assert date in data
     assert price in data
     assert total in data
+    if gallons and price:
+        assert float(gallons) * float(price) == float(total)
