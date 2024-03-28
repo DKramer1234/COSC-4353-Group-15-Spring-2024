@@ -12,7 +12,7 @@ def PricingModule(delivery_address):
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form.get('username')
@@ -71,16 +71,20 @@ def profile_management():
 
 @auth.route('/quoteform', methods=['GET', 'POST'])
 def quoteform(): # will need login required eventually
-    # TO DO: FUNCTION DEFINITION
     if request.method == 'POST':
-        gallons = float(request.form.get('gallons'))
-        delivery_address = request.form.get('address') # address will be taken from db
-        date = request.form.get('date')
-        price = PricingModule(delivery_address)
-        total = gallons * price
-        flash('Fuel Quote Submitted!', category='success')
-        return render_template('quoteform.html', user=current_user, price=price, total=total, gallons=gallons, date=date)
-        # new_quote = Quote(gallons=gallons, address=delivery_address, data=date, price=price, total=total) <- what we might use to add this completed quote to the database
+        gallons = request.form.get('gallons')
+        print(gallons)
+        if gallons == None:
+            flash('Enter value for fuel volume', category='error')
+        else:
+            gallons = float(gallons)
+            delivery_address = request.form.get('address') # address will be taken from db, this is a placeholder for now
+            date = request.form.get('date')
+            price = PricingModule(delivery_address)
+            total = gallons * price
+            flash('Fuel Quote Submitted!', category='success')
+            return render_template('quoteform.html', user=current_user, price=price, total=total, gallons=gallons, date=date)
+            # new_quote = Quote(gallons=gallons, address=delivery_address, data=date, price=price, total=total) <- what we might use to add this completed quote to the database
     return render_template('quoteform.html', user=current_user)
 
 @auth.route('/history', methods=['GET', 'POST'])
