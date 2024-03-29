@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
+from .pricing_module import PricingModule
 
 auth = Blueprint('auth', __name__)
 
@@ -71,12 +72,21 @@ def profile_management():
 
         # gets the form information and saves it
 
-        current_user.full_name = full_name
-        current_user.address1 = address1
-        current_user.address2 = address2
-        current_user.city = city
-        current_user.state = state
-        current_user.zipcode = zipcode
+        if len(full_name) > 50:
+            flash('Full name cannot be greater than 50 characters', category='error')
+        elif len(address1) > 100:
+            flash('Address 1 cannot be greater than 100 characters', category='error')
+        elif len(address2) > 100:
+            flash('Address 2 cannot be greater than 100 characters', category='error')
+        elif len(city) > 100:
+            flash('City cannot be greater than 100 characters', category='error')
+        else:
+            current_user.full_name = full_name
+            current_user.address1 = address1
+            current_user.address2 = address2
+            current_user.city = city
+            current_user.state = state
+            current_user.zipcode = zipcode
 
         db.session.commit() # saves the changes in db
 
@@ -86,9 +96,29 @@ def profile_management():
 
 @auth.route('/quoteform', methods=['GET', 'POST'])
 def quoteform(): # will need login required eventually
-    # TO DO: FUNCTION DEFINITION
+    if request.method == 'POST':
+        gallons = request.form.get('gallons')
+        date = request.form.get('date')
+        delivery_address = request.form.get('address') # address will be taken from db, this is a placeholder for now
+        price = None
+        total = None
+        if not gallons and not date:
+            flash('Enter an amount for fuel voluem (gallons) and choose a delivery date', category='error')
+        if not gallons:
+            flash('Enter an amount for fuel volume (gallons)', category='error')
+        elif not date:
+            flash('Choose a delivery date', category='error')
+        elif not delivery_address:
+            flash('Save your delivery address in Profile Management', category='success')
+        else:
+            gallons = float(gallons)
+            price = PricingModule(delivery_address)
+            total = gallons * price
+            # new_quote = Quote(gallons=gallons, address=delivery_address, data=date, price=price, total=total) <- what we might use to add this completed quote to the database
+            flash('Fuel Quote Submitted!', category='success')
+        return render_template('quoteform.html', user=current_user, price=price, total=total, gallons=gallons, date=date)
     return render_template('quoteform.html', user=current_user)
 
-@auth.route('/history', methods=['GET', 'POST'])
+@auth.route('/history', methods=['GET'])
 def history():
     return render_template('history.html', user=current_user)

@@ -2,13 +2,23 @@
     <form method="POST">
         <h3 align="center">Fuel Quote Form</h3>
         <div class="form-group">
-            <label for="gallons">Fuel Volume</label>
+            <label for="gallons">Fuel Volume (gal)</label>
                 <input
                     type="number"
                     class="form-control"
                     id="gallons"
                     name="gallons"
-                    placeholder="Enter Fuel Volume (Gallons)"
+                    value="{{ gallons }}"
+                />
+        </div>
+        <div class="form-group">
+            <label for="date">Delivery Date</label>
+                <input
+                    type="date"
+                    class="form-control"
+                    id="date"
+                    name="date"
+                    value="{{ date }}"
                 />
         </div>
         <div class="form-group">
@@ -18,8 +28,8 @@
                     class="form-control"
                     id="address"
                     name="address"
+                    value = "4300 Martin Luther King Blvd, Houston, TX 77204"
                     readonly
-                    placeholder=""
                 />
         </div>
         <div class="form-group">
@@ -30,7 +40,8 @@
                     id="price"
                     name="price"
                     readonly
-                    placeholder=""
+                    value="{{ price }}"
+                    step="any"
                 />
         </div>
         <div class="form-group">
@@ -41,21 +52,13 @@
                     id="total"
                     name="total"
                     readonly
-                    placeholder=""
+                    value="{{ total }}"
+                    step="any"
                 />
         </div>
-        <div class="form-group">
-            <label for="date">Delivery Date</label>
-                <input
-                    type="date"
-                    class="form-control"
-                    id="date"
-                    name="date"
-                />
-        </div>
+        <br />
+        <h3 align="center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </h3>
     </form>
-    <br />
-    <h3 align="center">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </h3>
 {% endblock %}
