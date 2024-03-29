@@ -87,6 +87,6 @@ def quoteform(): # will need login required eventually
         return render_template('quoteform.html', user=current_user, price=price, total=total, gallons=gallons, date=date)
     return render_template('quoteform.html', user=current_user)
 
-@auth.route('/history', methods=['GET', 'POST'])
+@auth.route('/history', methods=['GET'])
 def history():
     return render_template('history.html', user=current_user)
