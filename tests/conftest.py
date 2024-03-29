@@ -1,5 +1,6 @@
 import pytest
-from website import create_app
+import tempfile
+from website import create_app, db 
 
 @pytest.fixture
 def app():

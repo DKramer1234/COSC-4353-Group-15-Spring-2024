@@ -63,12 +63,12 @@ def client_registration():
 @auth.route('/profile_management', methods=['GET', 'POST'])
 def profile_management():
     if request.method == 'POST':
-        full_name = request.form.get(full_name)
-        address1 = request.form.get(address1)
-        address2 = request.form.get(address2)
-        city = request.form.get(city)
-        state = request.form.get(state)
-        zipcode = request.form.get(zipcode)
+        full_name = request.form.get('full_name')
+        address1 = request.form.get('address1')
+        address2 = request.form.get('address2')
+        city = request.form.get('city')
+        state = request.form.get('state')
+        zipcode = request.form.get('zipcode')
 
         # gets the form information and saves it
 
@@ -89,8 +89,8 @@ def profile_management():
             current_user.zipcode = zipcode
 
         db.session.commit() # saves the changes in db
-
-        return redirect(url_for('auth.profile_management')) 
+        flash('Profile information saved!', category='success')
+        #return redirect(url_for('auth.profile_management')) 
     
     return render_template('profile_management.html', user=current_user)
 
