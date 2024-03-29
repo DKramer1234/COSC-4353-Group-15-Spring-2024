@@ -71,12 +71,21 @@ def profile_management():
 
         # gets the form information and saves it
 
-        current_user.full_name = full_name
-        current_user.address1 = address1
-        current_user.address2 = address2
-        current_user.city = city
-        current_user.state = state
-        current_user.zipcode = zipcode
+        if len(full_name) > 50:
+            flash('Full name cannot be greater than 50 characters', category='error')
+        elif len(address1) > 100:
+            flash('Address 1 cannot be greater than 100 characters', category='error')
+        elif len(address2) > 100:
+            flash('Address 2 cannot be greater than 100 characters', category='error')
+        elif len(city) > 100:
+            flash('City cannot be greater than 100 characters', category='error')
+        else:
+            current_user.full_name = full_name
+            current_user.address1 = address1
+            current_user.address2 = address2
+            current_user.city = city
+            current_user.state = state
+            current_user.zipcode = zipcode
 
         db.session.commit() # saves the changes in db
 
