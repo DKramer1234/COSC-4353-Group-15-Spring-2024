@@ -8,9 +8,9 @@ from website.models import User
     ("", "", "", "", "", ""),
     ("user name", "", "", "", "", ""),
     ('this example has a full name that exceeds the max characters so it gives an error', 'address1', '', 'city', 'state', 'zipcode'),
-    ("user name", "address1", "this is an test case where the address that is being input is over 100 characters to test the if statement i am just typing without counting", "user city", "st", "zipcode"),
-    ("user name", "this is an test case where the address that is being input is over 100 characters to test the if statement i am just typing without counting", "user address2", "user city", "st", "zipcode"),
-    ("user name", "address1", "address2", "this is an test case where the user city that is being input is over 100 characters to test the if statement i am just typing without counting", "st", "zipcode")
+    ("user name", "address1", "this is a test case where the address that is being input is over 100 characters to test the if statement i am just typing without counting", "user city", "st", "zipcode"),
+    ("user name", "this is a test case where the address that is being input is over 100 characters to test the if statement i am just typing without counting", "user address2", "user city", "st", "zipcode"),
+    ("user name", "address1", "address2", "this is a test case where the user city that is being input is over 100 characters to test the if statement i am just typing without counting", "st", "zipcode")
 
 
 ])
