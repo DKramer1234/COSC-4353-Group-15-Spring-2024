@@ -12,4 +12,3 @@ class User(db.Model, UserMixin):
     city = db.Column(db.String(100))
     state = db.Column(db.String(2))
     zipcode = db.Column(db.Integer)
-
