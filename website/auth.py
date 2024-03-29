@@ -108,6 +108,8 @@ def quoteform(): # will need login required eventually
             flash('Enter an amount for fuel volume (gallons)', category='error')
         elif not date:
             flash('Choose a delivery date', category='error')
+        elif not delivery_address:
+            flash('Save your delivery address in Profile Management', category='success')
         else:
             gallons = float(gallons)
             price = PricingModule(delivery_address)
