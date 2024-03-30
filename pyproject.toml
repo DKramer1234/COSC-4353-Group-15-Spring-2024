@@ -1,6 +1,6 @@
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = [".", "website"]
+pythonpath = ["website"]
 
 [tool.coverage.run]
 branch = true

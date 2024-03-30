@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
+from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
+from .pricing_module import PricingModule
 
 auth = Blueprint('auth', __name__)
 
@@ -13,12 +14,11 @@ def login():
         password = request.form.get('password')
 
         user = User.query.filter_by(username=username).first()
-        # Need to add logic to catch any logging in users that do not have all of the information in profile management filled out.
         if user:
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('auth.profile_management')) # Always redirecting to profile management for now
+                return redirect(url_for('auth.profile_management')) # Redirecting to profile management for now
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
@@ -49,10 +49,11 @@ def client_registration():
         elif len(password1) < 3:
             flash('Password must be at least 3 characters.', category='error')
         else:
-            hashed_password = generate_password_hash(password1)
-            new_user = User(username=username, password=hashed_password)
+            new_user = User(username=username, password=generate_password_hash(
+                password1)) ## IMPORTANT, NEED TO HASH THE PASSWORD. REMOVED HASH TO MAKE WORK.
             db.session.add(new_user)
             db.session.commit()
+            login_user(new_user, remember=True)
             flash('Account created!', category='success')
             return redirect(url_for('auth.login'))
 
@@ -62,33 +63,62 @@ def client_registration():
 @auth.route('/profile_management', methods=['GET', 'POST'])
 def profile_management():
     if request.method == 'POST':
-        full_name = request.form.get(full_name)
-        address1 = request.form.get(address1)
-        address2 = request.form.get(address2)
-        city = request.form.get(city)
-        state = request.form.get(state)
-        zipcode = request.form.get(zipcode)
+        full_name = request.form.get('full_name')
+        address1 = request.form.get('address1')
+        address2 = request.form.get('address2')
+        city = request.form.get('city')
+        state = request.form.get('state')
+        zipcode = request.form.get('zipcode')
 
         # gets the form information and saves it
 
-        current_user.full_name = full_name
-        current_user.address1 = address1
-        current_user.address2 = address2
-        current_user.city = city
-        current_user.state = state
-        current_user.zipcode = zipcode
+        if len(full_name) > 50:
+            flash('Full name cannot be greater than 50 characters', category='error')
+        elif len(address1) > 100:
+            flash('Address 1 cannot be greater than 100 characters', category='error')
+        elif len(address2) > 100:
+            flash('Address 2 cannot be greater than 100 characters', category='error')
+        elif len(city) > 100:
+            flash('City cannot be greater than 100 characters', category='error')
+        else:
+            current_user.full_name = full_name
+            current_user.address1 = address1
+            current_user.address2 = address2
+            current_user.city = city
+            current_user.state = state
+            current_user.zipcode = zipcode
 
         db.session.commit() # saves the changes in db
-
-        return redirect(url_for('auth.profile_management')) 
+        flash('Profile information saved!', category='success')
+        #return redirect(url_for('auth.profile_management')) 
     
     return render_template('profile_management.html', user=current_user)
 
 @auth.route('/quoteform', methods=['GET', 'POST'])
 def quoteform(): # will need login required eventually
-    # TO DO: FUNCTION DEFINITION
+    if request.method == 'POST':
+        gallons = request.form.get('gallons')
+        date = request.form.get('date')
+        delivery_address = request.form.get('address') # address will be taken from db, this is a placeholder for now
+        price = None
+        total = None
+        if not gallons and not date:
+            flash('Enter an amount for fuel voluem (gallons) and choose a delivery date', category='error')
+        if not gallons:
+            flash('Enter an amount for fuel volume (gallons)', category='error')
+        elif not date:
+            flash('Choose a delivery date', category='error')
+        #elif not delivery_address: <----- WILL IMPLEMENT THIS ONCE WE HAVE A DB.
+            #flash('Save your delivery address in Profile Management', category='success')
+        else:
+            gallons = float(gallons)
+            price = PricingModule(delivery_address)
+            total = gallons * price
+            # new_quote = Quote(gallons=gallons, address=delivery_address, data=date, price=price, total=total) <- what we might use to add this completed quote to the database
+            flash('Fuel Quote Submitted!', category='success')
+        return render_template('quoteform.html', user=current_user, price=price, total=total, gallons=gallons, date=date)
     return render_template('quoteform.html', user=current_user)
 
-@auth.route('/history', methods=['GET', 'POST'])
+@auth.route('/history', methods=['GET'])
 def history():
     return render_template('history.html', user=current_user)
