@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
-from .models import User
+from .models import User, Quote
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
@@ -99,22 +99,27 @@ def quoteform(): # will need login required eventually
     if request.method == 'POST':
         gallons = request.form.get('gallons')
         date = request.form.get('date')
-        delivery_address = request.form.get('address') # address will be taken from db, this is a placeholder for now
+        address = current_user.address1
+        if current_user.address2:
+            address += ", {}".format(current_user.address2)
+        address += "{}, {}, {}".format(current_user.city, current_user.state, current_user.zipcode)
         price = None
         total = None
         if not gallons and not date:
             flash('Enter an amount for fuel voluem (gallons) and choose a delivery date', category='error')
-        if not gallons:
+        elif not gallons:
             flash('Enter an amount for fuel volume (gallons)', category='error')
         elif not date:
             flash('Choose a delivery date', category='error')
-        #elif not delivery_address: <----- WILL IMPLEMENT THIS ONCE WE HAVE A DB.
-            #flash('Save your delivery address in Profile Management', category='success')
+        elif not address:
+            flash('Save your delivery address in Profile Management', category='success')
         else:
             gallons = float(gallons)
-            price = PricingModule(delivery_address)
+            price = PricingModule(address)
             total = gallons * price
-            # new_quote = Quote(gallons=gallons, address=delivery_address, data=date, price=price, total=total) <- what we might use to add this completed quote to the database
+            new_quote = Quote(user_id=current_user.id, gallons=gallons, address=address, data=date, price=price, total=total)
+            db.session.add(new_quote)
+            db.session.commit()
             flash('Fuel Quote Submitted!', category='success')
         return render_template('quoteform.html', user=current_user, price=price, total=total, gallons=gallons, date=date)
     return render_template('quoteform.html', user=current_user)
