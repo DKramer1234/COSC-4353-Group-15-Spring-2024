@@ -1,4 +1,5 @@
 import pytest
+from website.models import User, Quote
 
 @pytest.mark.parametrize("gallons, date, address, price, total", [
     ('50', '2024-06-03', "4300 Martin Luther King Blvd, Houston, TX 77204", '120.5', '6025.0'),                       # Test case 1: Base case
@@ -27,4 +28,14 @@ def test_quoteform_validate_input(client, gallons, date, address, price, total):
     if gallons and price:
         assert float(gallons) * float(price) == float(total)
 
-# TO-DO: ONCE WE HAVE A DB, TEST IF SUBMITTED QUOTE WAS SUCCESSFULLY COMMITTED TO DB.
+def test_quoteform_quote_submission(client, app):
+    with app.app_context():
+        #pre_submission_quote_count = User.query???
+        response = client.post('/quoteform', data={
+            'gallons': '100',
+            'date': '2024-06-03',
+            'address': "Some Address",
+            'price': '2.50',
+            'total': '250.00'
+        })
+    # still working on this
