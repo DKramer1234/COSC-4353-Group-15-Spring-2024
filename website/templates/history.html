@@ -3,44 +3,26 @@
 {% block content %}
     <h1>Client's List Of Quote History's</h1>
     <h3>Oldest to New</h3>
-
-    <h2>John Doe</h2>
     
-        <li>
-            <strong>Address:</strong> 123 Main St, Anytown, USA
-        </li>
-        <li>
-            <strong>Gallons Requested:</strong> 100
-        </li>
-        <li>
-            <strong>Delivery Date:</strong> 2024-02-23
-        </li>
-        <li>
-            <strong>Suggested Price:</strong> $2.50
-        </li>
-        <li>
-            <strong>Total Amount Due:</strong> $250.00
-        </li>
-   
-    <hr>
-    
-    <h2>John Doe</h2>
-  
-        <li>
-            <strong>Address:</strong> 456 Oak St, Springfield, USA
-        </li>
-        <li>
-            <strong>Gallons Requested:</strong> 150
-        </li>
-        <li>
-            <strong>Delivery Date:</strong> 2024-03-15
-        </li>
-        <li>
-            <strong>Suggested Price:</strong> $2.75
-        </li>
-        <li>    
-            <strong>Total Amount Due:</strong> $412.50
-        </li>
-
-    
+    <table style="border-collapse: collapse; width: 100%;">
+        <tr style="border: 1px solid #dddddd;">
+            <th style="border: 1px solid #dddddd;">Name</th>
+            <th style="border: 1px solid #dddddd;">Address</th>
+            <th style="border: 1px solid #dddddd;">Gallons Requested</th>
+            <th style="border: 1px solid #dddddd;">Delivery Date</th>
+            <th style="border: 1px solid #dddddd;">Suggested Price</th>
+            <th style="border: 1px solid #dddddd;">Total Amount Due</th>
+        </tr>
+        
+        {% for quote in quotes %}
+        <tr style="border: 1px solid #dddddd;">
+            <td style="border: 1px solid #dddddd;">{{ quote.name }}</td>
+            <td style="border: 1px solid #dddddd;">{{ quote.address }}</td>
+            <td style="border: 1px solid #dddddd;">{{ quote.gallons_requested }}</td>
+            <td style="border: 1px solid #dddddd;">{{ quote.delivery_date }}</td>
+            <td style="border: 1px solid #dddddd;">{{ quote.suggested_price }}</td>
+            <td style="border: 1px solid #dddddd;">{{ quote.total_amount_due }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
