@@ -95,14 +95,15 @@ def profile_management():
     return render_template('profile_management.html', user=current_user)
 
 @auth.route('/quoteform', methods=['GET', 'POST'])
-def quoteform(): # will need login required eventually
+@login_required
+def quoteform():
+    address = current_user.address1
+    if current_user.address2:
+        address += ", {}".format(current_user.address2)
+    address += "{}, {}, {}".format(current_user.city, current_user.state, current_user.zipcode)
     if request.method == 'POST':
         gallons = request.form.get('gallons')
         date = request.form.get('date')
-        address = current_user.address1
-        if current_user.address2:
-            address += ", {}".format(current_user.address2)
-        address += "{}, {}, {}".format(current_user.city, current_user.state, current_user.zipcode)
         price = None
         total = None
         if not gallons and not date:
@@ -120,9 +121,11 @@ def quoteform(): # will need login required eventually
             new_quote = Quote(user_id=current_user.id, gallons=gallons, address=address, data=date, price=price, total=total)
             db.session.add(new_quote)
             db.session.commit()
+            price = f'${price:.2f}'
+            total = f'${total:.2f}'
             flash('Fuel Quote Submitted!', category='success')
-        return render_template('quoteform.html', user=current_user, price=price, total=total, gallons=gallons, date=date)
-    return render_template('quoteform.html', user=current_user)
+        return render_template('quoteform.html', user=current_user, price=price, total=total, gallons=gallons, date=date, address=address)
+    return render_template('quoteform.html', user=current_user, address=address)
 
 @auth.route('/history', methods=['GET'])
 def history():
