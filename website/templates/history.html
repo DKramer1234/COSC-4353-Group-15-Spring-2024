@@ -16,12 +16,12 @@
 
         {% for quote in quotes %}
         <tr style="border: 1px solid #dddddd;">
-            <td style="border: 1px solid #dddddd;">{{ quote.name }}</td>
-            <td style="border: 1px solid #dddddd;">{{ quote.address }}</td>
-            <td style="border: 1px solid #dddddd;">{{ quote.gallons_requested }}</td>
-            <td style="border: 1px solid #dddddd;">{{ quote.delivery_date }}</td>
-            <td style="border: 1px solid #dddddd;">{{ quote.suggested_price }}</td>
-            <td style="border: 1px solid #dddddd;">{{ quote.total_amount_due }}</td>
+            <td style="border: 1px solid #dddddd;">{{ User.full_name }}</td>
+            <td style="border: 1px solid #dddddd;">{{ User.address1 }}</td>
+            <td style="border: 1px solid #dddddd;">{{ Quote.gallons }}</td>
+            <td style="border: 1px solid #dddddd;">{{ Quote.date }}</td>
+            <td style="border: 1px solid #dddddd;">{{ Quote.price }}</td>
+            <td style="border: 1px solid #dddddd;">{{ Quote.total }}</td>
         </tr>
         {% endfor %}
     </table>

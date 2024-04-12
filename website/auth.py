@@ -130,23 +130,12 @@ def quoteform():
 
 @auth.route('/history', methods=['GET'])
 @login_required
+
 def history():
-    quotes = [
-        {
-            'name': 'John Doe',
-            'address': '123 Main St, Anytown, USA',
-            'gallons_requested': 100,
-            'delivery_date': '2024-02-23',
-            'suggested_price': 2.50,
-            'total_amount_due': 250.00
-        },
-        {
-            'name': 'John Doe',
-            'address': '456 Oak St, Springfield, USA',
-            'gallons_requested': 150,
-            'delivery_date': '2024-03-15',
-            'suggested_price': 2.75,
-            'total_amount_due': 412.50
-        }
-    ]
-    return render_template('history.html', user=current_user, quotes=quotes)
+    quotes = current_user.quotes
+    if current_user.quotes:
+        quotes = current_user.quotes
+        return render_template('history.html', user=current_user, quotes=quotes)
+    else:
+        message = "No client quote history exists"
+    return render_template('history.html', user=current_user, message=message)
