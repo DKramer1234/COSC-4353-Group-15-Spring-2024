@@ -49,11 +49,11 @@ def client_registration():
         elif len(password1) < 3:
             flash('Password must be at least 3 characters.', category='error')
         else:
-            new_user = User(username=username, password=generate_password_hash(
-                password1)) ## IMPORTANT, NEED TO HASH THE PASSWORD. REMOVED HASH TO MAKE WORK.
+
+            hashed_password = generate_password_hash(password1)
+            new_user = User(username = username, password = hashed_password)
             db.session.add(new_user)
             db.session.commit()
-            login_user(new_user, remember=True)
             flash('Account created!', category='success')
             return redirect(url_for('auth.login'))
 
