@@ -101,7 +101,7 @@ def quoteform():
     address = current_user.address1
     if current_user.address2:
         address += ", {}".format(current_user.address2)
-    address += "{}, {}, {}".format(current_user.city, current_user.state, current_user.zipcode)
+    address += ", {}, {}, {}".format(current_user.city, current_user.state, current_user.zipcode)
     if request.method == 'POST':
         gallons = request.form.get('gallons')
         date = request.form.get('date')
@@ -130,7 +130,6 @@ def quoteform():
 
 @auth.route('/history', methods=['GET'])
 @login_required
-
 def history():
     quotes = current_user.quotes
     if current_user.quotes:
