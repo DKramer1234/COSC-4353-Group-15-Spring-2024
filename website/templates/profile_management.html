@@ -16,7 +16,7 @@
             id="full_name"
             name="full_name"
             placeholder="{% if user.full_name %}{{user.full_name}} {% else %}Enter Full Name {% endif %}"
-            required
+            
         />
     </div>
 
@@ -28,7 +28,7 @@
             id="address1"
             name="address1"
             placeholder="{% if user.address1 %}{{user.address1}} {% else %}Enter Address {% endif %}"
-            required 
+         
         />
     </div>
 
@@ -51,16 +51,15 @@
             id="city"
             name="city"
             placeholder="{% if user.address2 %}{{user.address2}} {% else %}Enter City{% endif %}"
-            required
+            
         />
     </div>
 
     <div class="form-group">
        <!--States go here-->
        <label for="state">State</label>
-        <select class="form-control" name="state" id="state" required
-            placeholder="{% if user.state %}{{user.state}} {% else %}Enter State {% endif %}">
-            <option value="" disabled selected>Select State</option>
+        <select class="form-control" name="state" id="state">
+            <option value="" disabled selected>{% if user.state %}{{user.state}} {% else %}Select State {% endif %}</option> 
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AZ">Arizona</option>
@@ -125,7 +124,7 @@
             id="zipcode"
             name="zipcode"
             placeholder="{% if user.zipcode %}{{user.zipcode}} {% else %}Enter Zipcode {% endif %}"
-            required
+            
         />
     </div>
     <h3 align="center">
