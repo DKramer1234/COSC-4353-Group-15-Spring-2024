@@ -126,4 +126,22 @@ def quoteform(): # will need login required eventually
 
 @auth.route('/history', methods=['GET'])
 def history():
-    return render_template('history.html', user=current_user)
+    quotes = [
+        {
+            'name': 'John Doe',
+            'address': '123 Main St, Anytown, USA',
+            'gallons_requested': 100,
+            'delivery_date': '2024-02-23',
+            'suggested_price': 2.50,
+            'total_amount_due': 250.00
+        },
+        {
+            'name': 'John Doe',
+            'address': '456 Oak St, Springfield, USA',
+            'gallons_requested': 150,
+            'delivery_date': '2024-03-15',
+            'suggested_price': 2.75,
+            'total_amount_due': 412.50
+        }
+    ]
+    return render_template('history.html', user=None, quotes=quotes)
