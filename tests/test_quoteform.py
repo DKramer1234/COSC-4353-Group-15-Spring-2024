@@ -28,14 +28,14 @@ def test_quoteform_validate_input(client, gallons, date, address, price, total):
     if gallons and price:
         assert float(gallons) * float(price) == float(total)
 
-def test_quoteform_quote_submission(client, app):
+'''def test_quoteform_quote_submission(client, app):
     with app.app_context():
-        #pre_submission_quote_count = User.query???
+        pre_submission_quote_count = User.query???
         response = client.post('/quoteform', data={
             'gallons': '100',
             'date': '2024-06-03',
             'address': "Some Address",
-            'price': '2.50',
-            'total': '250.00'
+            'price': '2.5',
+            'total': '250.0'
         })
-    # still working on this
+    # still working on this'''
