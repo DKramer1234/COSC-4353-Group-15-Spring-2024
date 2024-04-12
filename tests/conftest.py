@@ -2,7 +2,7 @@ import pytest
 from website import create_app, db 
 
 class AuthActions(object):
-    def __init__(self, cleint):
+    def __init__(self, client):
         self._client = client
     def login(self, username='test', password='test'):
         return self._client.post(

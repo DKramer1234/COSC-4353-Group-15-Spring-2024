@@ -61,6 +61,7 @@ def client_registration():
 
 # Profile Management path
 @auth.route('/profile_management', methods=['GET', 'POST'])
+@login_required
 def profile_management():
     if request.method == 'POST':
         full_name = request.form.get('full_name')
@@ -118,7 +119,7 @@ def quoteform():
             gallons = float(gallons)
             price = PricingModule(address)
             total = gallons * price
-            new_quote = Quote(user_id=current_user.id, gallons=gallons, address=address, data=date, price=price, total=total)
+            new_quote = Quote(user_id=current_user.id, gallons=gallons, address=address, date=date, price=price, total=total)
             db.session.add(new_quote)
             db.session.commit()
             price = f'${price:.2f}'
@@ -128,23 +129,13 @@ def quoteform():
     return render_template('quoteform.html', user=current_user, address=address)
 
 @auth.route('/history', methods=['GET'])
+@login_required
+
 def history():
-    quotes = [
-        {
-            'name': 'John Doe',
-            'address': '123 Main St, Anytown, USA',
-            'gallons_requested': 100,
-            'delivery_date': '2024-02-23',
-            'suggested_price': 2.50,
-            'total_amount_due': 250.00
-        },
-        {
-            'name': 'John Doe',
-            'address': '456 Oak St, Springfield, USA',
-            'gallons_requested': 150,
-            'delivery_date': '2024-03-15',
-            'suggested_price': 2.75,
-            'total_amount_due': 412.50
-        }
-    ]
-    return render_template('history.html', user=None, quotes=quotes)
+    quotes = current_user.quotes
+    if current_user.quotes:
+        quotes = current_user.quotes
+        return render_template('history.html', user=current_user, quotes=quotes)
+    else:
+        message = "No client quote history exists"
+    return render_template('history.html', user=current_user, message=message)
