@@ -101,20 +101,23 @@ def quoteform():
     address = current_user.address1
     if current_user.address2:
         address += ", {}".format(current_user.address2)
-    address += ", {}, {}, {}".format(current_user.city, current_user.state, current_user.zipcode)
+    city = current_user.city
+    state = current_user.state
+    zipcode = current_user.zipcode
+    address += ", {}, {}, {}".format(city, state, zipcode)
     if request.method == 'POST':
         gallons = request.form.get('gallons')
         date = request.form.get('date')
         price = None
         total = None
         if not gallons and not date:
-            flash('Enter an amount for fuel voluem (gallons) and choose a delivery date', category='error')
+            flash('Enter an amount for fuel volume (gallons) and choose a delivery date', category='error')
         elif not gallons:
             flash('Enter an amount for fuel volume (gallons)', category='error')
         elif not date:
             flash('Choose a delivery date', category='error')
-        elif not address:
-            flash('Save your delivery address in Profile Management', category='success')
+        elif not address or not city or not state or not zipcode or len(address) == 0:
+            flash('Save your delivery address in Profile Management', category='error')
         else:
             gallons = float(gallons)
             price = PricingModule(address)
@@ -122,8 +125,6 @@ def quoteform():
             new_quote = Quote(user_id=current_user.id, gallons=gallons, address=address, date=date, price=price, total=total)
             db.session.add(new_quote)
             db.session.commit()
-            price = f'${price:.2f}'
-            total = f'${total:.2f}'
             flash('Fuel Quote Submitted!', category='success')
         return render_template('quoteform.html', user=current_user, price=price, total=total, gallons=gallons, date=date, address=address)
     return render_template('quoteform.html', user=current_user, address=address)

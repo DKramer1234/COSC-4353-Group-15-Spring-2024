@@ -1,10 +1,10 @@
 
 import pytest
 
-#def test_history_unauthenticated(client):
-    # Test accessing the history page when not logged in
-    #response = client.get('/history')
-    #assert response.status_code == 302  # Should redirect to the login page
+def test_history_unauthenticated(client):
+    #Test accessing the history page when not logged in
+    response = client.get('/history')
+    assert response.status_code == 302  # Should redirect to the login page
 
 def test_history_authenticated(client):
     # Test accessing the history page when logged in

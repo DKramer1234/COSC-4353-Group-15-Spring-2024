@@ -1,4 +1,5 @@
 import pytest
+from flask import g, session
 
 @pytest.mark.parametrize("username, password, message", [
         ('', '', 'Username does not exist.'),  # Test empty username and password
@@ -16,6 +17,4 @@ def test_login_cases(client, username, password, message):
             'message': message}
     )
     data = response.data.decode('utf-8')
-    username in data
-    password in data
-    message in data
+    assert message in data

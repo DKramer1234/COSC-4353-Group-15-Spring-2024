@@ -17,6 +17,7 @@ def auth(client):
 @pytest.fixture
 def app():
     app = create_app()
+    app.config['TESTING'] = True
 
     with app.app_context():
         db.create_all()
