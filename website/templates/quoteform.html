@@ -35,28 +35,40 @@
         <div class="form-group">
             <label for="price">Price (USD / gal)</label>
                 <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="price"
                     name="price"
                     readonly
                     value="{{ price }}"
+                    step="0.01"
                 />
         </div>
         <div class="form-group">
             <label for="total">Total Amount Due (USD)</label>
                 <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="total"
                     name="total"
                     readonly
                     value="{{ total }}"
+                    step="0.01"
                 />
         </div>
         <br />
         <h3 align="center">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Get Quote</button>
+        </h3>
+        <br />
+        <h3 align="center">
+            <button type="submit" class="btn btn-primary" onclick="GetQuote()">Submit</button>
         </h3>
     </form>
+
+    <script>
+        function GetQuote() {
+        var xhttp = new XMLHttpRequest();
+        }
+    </script>
 {% endblock %}
