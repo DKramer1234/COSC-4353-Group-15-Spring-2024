@@ -105,28 +105,34 @@ def quoteform():
     state = current_user.state
     zipcode = current_user.zipcode
     address += ", {}, {}, {}".format(city, state, zipcode)
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest': # boolean for checking existence of ajax request
+        gallons = request.form.get('gallons')
+        gallons = float(gallons)
+        price = PricingModule(current_user, gallons, address)
+        total = gallons * price
+        return jsonify({'price': price, 'total': total})
+
     if request.method == 'POST':
         gallons = request.form.get('gallons')
         date = request.form.get('date')
-        price = None
-        total = None
-        if not gallons and not date:
-            flash('Enter an amount for fuel volume (gallons) and choose a delivery date', category='error')
-        elif not gallons:
-            flash('Enter an amount for fuel volume (gallons)', category='error')
-        elif not date:
-            flash('Choose a delivery date', category='error')
+
+        if not gallons or not date:
+            flash('Please fill all required fields', category='error')
         elif not address or not city or not state or not zipcode or len(address) == 0:
             flash('Save your delivery address in Profile Management', category='error')
         else:
             gallons = float(gallons)
-            price = PricingModule(address)
+            price = PricingModule(current_user, gallons, address)
             total = gallons * price
+
+            # Submit
             new_quote = Quote(user_id=current_user.id, gallons=gallons, address=address, date=date, price=price, total=total)
             db.session.add(new_quote)
             db.session.commit()
             flash('Fuel Quote Submitted!', category='success')
-        return render_template('quoteform.html', user=current_user, price=price, total=total, gallons=gallons, date=date, address=address)
+            return render_template('quoteform.html', user=current_user, address=address)
+        
     return render_template('quoteform.html', user=current_user, address=address)
 
 @auth.route('/history', methods=['GET'])
