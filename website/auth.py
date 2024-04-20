@@ -106,27 +106,25 @@ def quoteform():
     zipcode = current_user.zipcode
     address += ", {}, {}, {}".format(city, state, zipcode)
 
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest': # boolean for checking existence of ajax request
+        gallons = request.form.get('gallons')
+        gallons = float(gallons)
+        price = PricingModule(current_user, gallons, address)
+        total = gallons * price
+        return jsonify({'price': price, 'total': total})
+
     if request.method == 'POST':
-        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest' # boolean for checking existence of ajax request
         gallons = request.form.get('gallons')
         date = request.form.get('date')
 
         if not gallons or not date:
-            if is_ajax:
-                return jsonify({"error": "Please fill all required fields"}), 400
             flash('Please fill all required fields', category='error')
         elif not address or not city or not state or not zipcode or len(address) == 0:
-            if is_ajax:
-                return jsonify({"error": "Save your delivery address in Profile Management"}), 400
             flash('Save your delivery address in Profile Management', category='error')
         else:
             gallons = float(gallons)
             price = PricingModule(current_user, gallons, address)
             total = gallons * price
-            
-            if is_ajax:
-                # Get Quote
-                return jsonify(price=price, total=total)
 
             # Submit
             new_quote = Quote(user_id=current_user.id, gallons=gallons, address=address, date=date, price=price, total=total)

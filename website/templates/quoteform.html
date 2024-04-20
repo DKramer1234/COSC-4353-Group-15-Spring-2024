@@ -58,17 +58,33 @@
         </div>
         <br />
         <h3 align="center">
-            <button type="submit" class="btn btn-primary">Get Quote</button>
+            <button type="button" class="btn btn-primary" onclick=GetQuote()>Get Quote</button>
         </h3>
-        <br />
+        <br/>
         <h3 align="center">
-            <button type="submit" class="btn btn-primary" onclick="GetQuote()">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </h3>
     </form>
 
     <script>
         function GetQuote() {
-        var xhttp = new XMLHttpRequest();
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = JSON.parse(this.responseText);
+                    document.getElementById("price").value = data.price.toFixed(2)
+                    document.getElementById("total").value = data.total.toFixed(2)
+                    }
+                }
+            var gallons = document.getElementById('gallons').value
+            var date = document.getElementById('date').value
+            var address = document.getElementById('address').value
+            xhttp.open("POST", "/quoteform", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+            xhttp.send("gallons="+encodeURIComponent(gallons)
+                      +"&date="+encodeURIComponent(date)
+                      +"&address="+encodeURIComponent(address));
         }
     </script>
 {% endblock %}
