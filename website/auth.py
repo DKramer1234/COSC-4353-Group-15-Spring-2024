@@ -104,7 +104,7 @@ def quoteform():
     city = current_user.city
     state = current_user.state
     zipcode = current_user.zipcode
-    address += ", {}, {}, {}".format(city, state, zipcode)
+    address += ", {}, {} {}".format(city, state, zipcode)
 
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest': # boolean for checking existence of ajax request
         gallons = request.form.get('gallons')
@@ -116,32 +116,33 @@ def quoteform():
     if request.method == 'POST':
         gallons = request.form.get('gallons')
         date = request.form.get('date')
+        price = request.form.get('price')
+        total = request.form.get('total')
 
         if not gallons or not date:
             flash('Please fill all required fields', category='error')
         elif not address or not city or not state or not zipcode or len(address) == 0:
             flash('Save your delivery address in Profile Management', category='error')
+        elif not (price and total):
+            flash('Calculate Price and Total Amount Due by clicking the "Get Quote" button', category='error')
         else:
-            gallons = float(gallons)
-            price = PricingModule(current_user, gallons, address)
-            total = gallons * price
-
             # Submit
             new_quote = Quote(user_id=current_user.id, gallons=gallons, address=address, date=date, price=price, total=total)
             db.session.add(new_quote)
             db.session.commit()
             flash('Fuel Quote Submitted!', category='success')
             return render_template('quoteform.html', user=current_user, address=address)
+        return render_template('quoteform.html', user=current_user, gallons=gallons, address=address, date=date, price=price, total=total)
         
-    return render_template('quoteform.html', user=current_user, address=address)
+    return render_template('quoteform.html', user=current_user, address=address, )
 
 @auth.route('/history', methods=['GET'])
 @login_required
 def history():
     quotes = current_user.quotes
-    if current_user.quotes:
+    if quotes:
         quotes = current_user.quotes
         return render_template('history.html', user=current_user, quotes=quotes)
     else:
         message = "No client quote history exists"
-    return render_template('history.html', user=current_user, message=message)
+        return render_template('history.html', user=current_user, message=message)

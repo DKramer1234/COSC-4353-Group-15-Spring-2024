@@ -31,6 +31,7 @@ def test_quoteform_validate_input(client, gallons, date, address, price, total):
         assert price in data
         assert total in data
         assert float(gallons) * float(price) == float(total)
+    client.get('/logout')
 
 '''def test_address2_check(client):
     client.post('/', data={'username': 'test', 'password': 'test'})

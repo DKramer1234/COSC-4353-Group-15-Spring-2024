@@ -17,7 +17,7 @@
         {% for quote in quotes %}
         <tr style="border: 1px solid #dddddd;">
             <td style="border: 1px solid #dddddd;">{{ user.full_name }}</td>
-            <td style="border: 1px solid #dddddd;">{{ user.address1 }}</td>
+            <td style="border: 1px solid #dddddd;">{{ quote.address }}</td>
             <td style="border: 1px solid #dddddd;">{{ quote.gallons }}</td>
             <td style="border: 1px solid #dddddd;">{{ quote.date }}</td>
             <td style="border: 1px solid #dddddd;">{{ quote.price }}</td>

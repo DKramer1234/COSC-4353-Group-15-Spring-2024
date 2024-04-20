@@ -2,7 +2,7 @@ def PricingModule(user, gallons_requested, delivery_address):
     price_per_gal = 1.5 # fixed price, units: $ / gal
     location_factor = 0.04
     # If Texas is in the delivery address
-    if 'TX' in delivery_address:
+    if "TX" in delivery_address:
         location_factor = 0.02
     rate_history = 0.0
     # If the client has previous submitted quotes
